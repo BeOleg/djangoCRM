@@ -1,0 +1,33 @@
+{% extends "lead_center/common/base.html" %}
+{% load custom_filters %}
+{% block title %} Contact us {% endblock %}
+{% block content %}
+    <div>
+        <form method="POST" action="">
+            {% csrf_token %}
+            {% for field in form.visible_fields %}
+                <div class="row">
+                    <div class="col-lg-12 left">
+                    {{field.name|form_display:"_"}}
+                    </div>
+                </div>
+                <div class="row">
+                    <span class="error">
+                    {{field.errors}}
+                    </span>
+                    <div class="col-lg-12 left">
+                    {{field}}
+                    </div>
+                </div>
+            {% endfor %}
+            <input type="submit" class="btn btn-primary">
+        </form>
+    </div>
+    <div>
+        {% if form.is_valid %}
+            <span>
+                Fom submitted, thank you!
+            </span>
+        {% endif %}
+    </div>
+{% endblock %}

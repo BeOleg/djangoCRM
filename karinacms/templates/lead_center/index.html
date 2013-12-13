@@ -1,0 +1,52 @@
+{% extends "lead_center/common/base.html" %}
+{% block content %}
+        <h1>Lead database</h1>
+        {% if leads %}
+            <div class="tbl">
+                <div style="font-weight:bold;" class="row">
+                	<div class="col col-lg-3">
+                        First name
+                    </div>
+
+                    <div class="col col-lg-3">
+                        Last name
+                    </div>
+
+                    <div class="col col-lg-3">
+                        Phone
+                    </div>
+
+                    <div class="col col-lg-3">
+                        Location
+                    </div>
+                </div>
+                {% for lead in leads %}
+                    <div style="font-weight:bold;" class="row">
+                        <div class="col col-lg-3">
+                            <a href='lead-page/{{lead.first_name}}-{{lead.last_name}}'>
+                                {{lead.first_name}}
+                            </a>
+                        </div>
+
+                        <div class="col col-lg-3">
+                            {{lead.last_name}}
+                        </div>
+
+                        <div class="col col-lg-3">
+                            {{lead.phone}}
+                        </div>
+
+                        <div class="col col-lg-3">
+                            {{lead.city}}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+                <div style="row">
+                    <div class="col-lg-12">
+                        No leads, fuck off
+                    </div>
+                </div>
+        {% endif %}
+{% endblock %}

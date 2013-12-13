@@ -1,0 +1,17 @@
+{% extends 'lead_center/common/base.html' %}
+{% block title %}Register{% endblock %}
+{% block content %}
+		{% if registered %}
+			<div class="successMsg">
+				Thank you for registering, you can now 
+				<a href="/leads/login">Login!</a>
+			<div>
+		{% else %}
+			<form method="POST" action="">
+				{% csrf_token %}
+				{{userForm.as_p}}
+				{{userInfoForm.as_ul}}
+				<input type="submit" value="register">
+			</form>
+		{% endif %}	
+{% endblock %}

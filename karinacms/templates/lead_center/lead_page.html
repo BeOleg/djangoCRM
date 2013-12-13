@@ -1,0 +1,92 @@
+{% extends "lead_center/common/base.html" %}
+{% block title %}Lead management - {{title}} {% endblock %}
+{% block content %}
+        <h1>{{title}}</h1>
+        {% if leads %}
+                {% for lead in leads %}
+                <div class="row left">
+                    <div style="font-weight:bold;" class="col-lg-3">
+                        <div class="row left">
+                               <li>{{forloop.counter}}. First name:   {{lead.first_name}}</li>
+                        </div>
+
+                        <div class="row left">
+                            Last name: {{lead.last_name}}
+                        </div>
+
+                        <div class="row left">
+                           Phone: {{lead.phone}}
+                        </div>
+
+                        <div class="row left">
+                            Location:  {{lead.city}}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+        {% else %}
+            <div class="row left">
+                    <div style="font-weight:bold;color:red;">
+                        Not found, 404
+                    </div>
+            </div>
+        {% endif %}
+        <br>
+        <br>
+        <br>
+        {% if comment_list %}
+            {% for comment in comment_list %}
+            <hr>
+            <div class="row">
+                <div class="col-lg-5 left">
+                    <div class="row left">
+                        User: {{comment.user.username}}
+                    </div>
+                    <div class="row left">
+                        Date: {{comment.time}}
+                    </div>
+                    <div class="row left">
+                        Title: {{comment.title}}
+                    </div>
+                    <div class="row left bold">
+                        Comment: {{comment.comment}}
+                    </div>
+                 </div>   
+            </div>
+            {% endfor %}
+        {% endif %}
+        <hr>
+        <form method="POST" action=""> 
+            {% csrf_token %}
+            {% for field in form.visible_fields %}
+            <div class="row">
+                <div class="col-lg-12 left">
+                {{field.help_text}}
+                </div>
+            </div>
+            <div class="row">
+                <span class="error">
+                {{label.errors}}
+                </span>
+                <div class="col-lg-12 left">
+                {{field}}
+                </div>
+            </div>
+            {% endfor %}
+            <div style="row">
+                <div class="col-lg-12 left">
+                    <input type="submit" value="Comment" class="btn btn-primary">
+                  </div>  
+            </div>
+        </from>
+        <br>
+        {% if comment_success %}
+            <div style="row">
+                <div class="col-lg-4">
+                    <div style="color:green;">
+                        Your comment was added
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+{% endblock %}

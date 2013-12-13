@@ -1,0 +1,45 @@
+{% extends "lead_center/common/base.html" %}
+{% block title %}Register{% endblock %}
+{% block content %}
+	{% if msg %}
+		<div>
+			{{msg}}
+		</div>
+	{% endif %}
+	<div class="row">
+		<div class="col col-lg-4">
+			<h4>Enter your credentials</h4>
+		</div>
+	</div>
+	<form method="POST" action="">
+		{% csrf_token %}
+		<div class="row">
+			<div class="col col-lg-4">
+				<label for="username">User name</label>
+			</div>
+			<div class="col col-lg-12">
+				<div><input type="text" class="form-control" name="username"></div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col col-lg-4">
+				<label for="password">Password</label>
+			</div>
+			<div class="col col-lg-12">
+				<div><input type="password" class="form-control" name="password"></div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col col-lg-12">
+				<input type="submit" value="login" class="btn btn-primary">
+			</div>
+		</div>
+	</form>
+	<div class="row">
+		<div class="col col-lg-12">
+			<a href="/leads/register">
+				Register
+			</a>
+		</div>
+	</div>
+{% endblock %}

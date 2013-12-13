@@ -1,0 +1,63 @@
+input, label{
+	display: block;
+}
+body{
+	padding-bottom: 20px;
+}
+div hr{
+	color: black;
+	height: 0;
+	border: 1px solid black;
+	width: 100%;
+
+}
+div.jumbotron {
+	line-height: 20px;
+	font-size: 14px;
+}
+textarea{
+	width: 100%;
+}
+div > textarea{
+	margin: 0 0 10px 0;
+}
+input{
+	width: 100%;
+}
+footer{
+	position: absolute;
+	color: #fff;
+	background-color: #000;
+	width: 100%;
+	padding: 0 0 5px 0;
+	font-size: 12px;
+	text-align: center;
+	margin: auto;
+	margin: 0;
+	padding: 0;
+}
+.error{
+	color: red;
+	font-weight: bold;
+	font-size: 12px;
+}
+.row{
+	padding: 5px 0;
+}
+.left{
+	text-align: left;
+}
+.bold{
+	font-weight: bold;
+}
+.helptext{
+	display: block;
+	font-size: 12px;
+	font-weight: bold;
+}
+.helptext::before{
+content: "*";
+color:red;
+font-size: 10px;
+font-weight: bold;
+}
