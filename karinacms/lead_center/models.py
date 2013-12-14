@@ -22,17 +22,23 @@ class Product(models.Model):
 	def __unicode__(self):
 		return self.name
 
+class LeadStatus(models.Model):
+	name = models.CharField(max_length=255)
+	description = models.CharField(max_length=512, blank=True)
+	def __unicode__(self):
+		return self.name
+
 class Lead(models.Model):
-	campaign = models.ForeignKey(Campaign)
-	product = models.ForeignKey(Product, null=True)
-	product = models.ForeignKey(Product)
+	campaign = models.ForeignKey(Campaign, null=True, related_name='campaign_leads')
+	product = models.ForeignKey(Product, null=True, related_name='product_leads')
+	status = models.ForeignKey(LeadStatus, null=True, related_name='status_leads')
 	campaign_url = models.CharField(max_length=100, null=True)
 	phone = models.CharField(max_length=15)
-	email = models.CharField(max_length=60)
+	email = models.CharField(max_length=60, blank=True)
 	first_name = models.CharField(max_length=40)
 	last_name = models.CharField(max_length=40)
 	city = models.CharField(max_length=50, null=True)
-	comment = models.CharField(max_length=255, null=True)
+	comment = models.CharField(max_length=255, blank=True)
 	ip = models.CharField(max_length=30, null=True)
 	agent = models.CharField(max_length=60, null=True)
 	def __unicode__(self):

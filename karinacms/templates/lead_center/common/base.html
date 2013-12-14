@@ -9,29 +9,67 @@
         <script type="text/javascript" src="{% static 'lib/bootstrap/js/bootstrap.min.js' %}"></script>
         <script type="text/javascript" src="{% static 'assets/js/footer.js' %}"></script>
     </head>
-
     <body>
     {% include "lead_center/common/header.html" %}
-            <div class="col-lg-3">
-                <div class="well sidebar-nav">
-                    <!--- Empty for the timebeing -->
-                </div>
-                <!--/.well -->
-            </div>
-            <!--/span-->
-           <div class="col-lg-9">
-           		<div class="jumbotron">
-	       	 	   {% block content %}
-		 		   {% endblock %}
-	 		   </div>
-            </div>
-            <!--/span-->
-	        
+        <div class="col-lg-3">
+            <div class="well">
+            <h3>Options</h3>
+                <ul class="sidebar-nav"> 
+                    <li>
+                        <a href="/leads/add_lead"> 
+                            Add new lead
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/leads/products">
+                            Services
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/leads/campaigns">
+                            Campaigns
+                        </a>
+                    </li>
+                    <li>    
+                        <a href="/leads/statuses">
+                            Lead statuses
+                        </a>
+                    </li>
+                    <li>
+                 <!--        <a href="/leads/options">
+                            Options
+                        </a> -->
+                    </li>
+                </ul>
 
-    <footer>
-        <div>
-            <span>Oleg Tikhonov 2013 :)</span>
+                {%if request %}
+                    <h3>Usage stats</h3>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            Visits: {{request.session.visits|default:1}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            Last visit: {{request.session.last_visit|default:'today'}}
+                        </div>
+                    </div>
+                {% endif %}
+           </div>
+
         </div>
-    </footer>
+        
+       <div class="col-lg-9">
+       		<div class="jumbotron">
+       	 	   {% block content %}
+	 		   {% endblock %}
+ 		   </div>
+        </div>
+        
+        <footer>
+            <div>
+                <span>Oleg Tikhonov 2013</span>
+            </div>
+        </footer>
     </body>
 </html>

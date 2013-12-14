@@ -22,26 +22,9 @@
 		{% endif %}
 	</ul>
 	</li>
-	<li class="dropdown">
-	  <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-	  	Stats
-	     <span class="caret"></span>
-	  </a>
-	  {%if request %}
-	  <ul class="dropdown-menu"  role="menu" aria-labelledby="dLabel">
-	  	<li>Visits: {{request.session.visits|default:1}}</li>
-			<li>Last visit: {{request.session.last_visit|default:'today'}}</li>
-	  </ul>
-	  {% endif %}
-	</li>
 	<li>
 		<a href="/leads/"> 
 			Home
-		</a>
-	</li>
-	<li>
-		<a href="/leads/form"> 
-			Add new lead
 		</a>
 	</li>
 </ul>

@@ -1,1 +1,3 @@
 *.pyc
+karimacms/lead_center/migrations/*
+*.sqlite3

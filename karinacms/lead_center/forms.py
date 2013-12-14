@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from .models import Lead, Campaign, LeadComment, UserInfo
+from .models import Lead, Campaign, LeadComment, LeadStatus, UserInfo, Product
 
 class BootstrapForm(forms.ModelForm):
 	def __init__(self, *args, **kwargs):
@@ -21,6 +21,21 @@ class UserInfoForm(BootstrapForm):
 		model = UserInfo
 		fields = ('site',)
 
+class ProductForm(BootstrapForm):
+	class Meta:
+		model = Product
+		fields = ('name', 'description',)
+
+class CampaignForm(BootstrapForm):
+	class Meta:
+		model = Campaign
+		fields = ('name', 'description',)
+
+class LeadStatusForm(BootstrapForm):
+	class Meta:
+		model = LeadStatus
+		fields = ('name', 'description',)
+
 class UserLoginForm(BootstrapForm):
 	username = forms.CharField(required=True)
 	password = forms.CharField(required=True, widget=forms.PasswordInput())
@@ -32,7 +47,8 @@ class LeadForm(BootstrapForm):
 	class Meta:
 		model = Lead
 		fields = ('first_name', 'last_name', 'city', 'phone',
-				 'email', 'comment',)
+				 'email', 'comment', 'status', 'campaign', 'product')
+
 
 class leadCommentForm(BootstrapForm):
 	title = forms.CharField(max_length=512, help_text="Summary of the call")
