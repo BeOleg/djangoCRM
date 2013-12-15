@@ -9,6 +9,16 @@ from django.http import HttpResponseRedirect, HttpResponse
 from datetime import datetime
 from django.conf import settings
 
+from rest_framework import viewsets
+from .serializers import LeadSerializer
+
+class LeadViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows leads being viewed and edited
+    """
+    queryset = Lead.objects.all()
+    serializer_class = LeadSerializer
+
 # Create your views here.
 def about(request):
 	context_dict = {'boldmessage': "someStaticMessageAtAbout"}

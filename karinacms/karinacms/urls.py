@@ -1,15 +1,19 @@
 from django.conf.urls import patterns, include, url
-
-from django.contrib import admin
 from lead_center import views
+from rest_framework import routers
+from django.contrib import admin
+
 admin.autodiscover()
 
+router = routers.DefaultRouter()
+router.register(r'leads_api', views.LeadViewSet)
+
 urlpatterns = patterns('',
-    # Examples:
-    #url(r'^$', 'lead_center.views.index', name='index'),
-    # url(r'^blog/', includelead_center('blog.urls')),
-     url(r'^leads/', include('lead_center.urls')),
+	url(r'^leads/', include('lead_center.urls')),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^', include(router.urls)),
+    url(r'^api/', include('rest_framework.urls', namespace='rest_framework')),
+
 )
 
 # if settings.DEBUG:

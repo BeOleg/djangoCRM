@@ -1,3 +1,5 @@
 *.pyc
-karimacms/lead_center/migrations/*
+*/migrations/*
 *.sqlite3
+karinacms/db.sqlite3
+ karinacms/lead_center/migrations/*
