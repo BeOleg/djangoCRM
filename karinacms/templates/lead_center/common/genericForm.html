@@ -1,0 +1,26 @@
+{% load custom_filters %}
+<form method="POST" action="">
+    {% csrf_token %}
+    {% if formTitlte %}
+    	<div class="row">
+    		<h3>{{formTitle}}</h3>
+    	</div>
+    {% endif %}
+    
+    {% for field in form.visible_fields %}
+        <div class="row">
+            <div class="col-lg-12 left">
+            {{field.name|form_display:"_"}}
+            </div>
+        </div>
+        <div class="row">
+            <span class="error">
+            {{field.errors}}
+            </span>
+            <div class="col-lg-12 left">
+            {{field}}
+            </div>
+        </div>
+    {% endfor %}
+    <input type="submit" class="btn btn-primary" value='{{formSubmit|default:"Send"}}'>
+</form>

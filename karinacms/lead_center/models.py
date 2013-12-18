@@ -29,18 +29,18 @@ class LeadStatus(models.Model):
 		return self.name
 
 class Lead(models.Model):
-	campaign = models.ForeignKey(Campaign, null=True, related_name='campaign_leads')
-	product = models.ForeignKey(Product, null=True, related_name='product_leads')
-	status = models.ForeignKey(LeadStatus, null=True, related_name='status_leads')
-	campaign_url = models.CharField(max_length=100, null=True)
+	campaign = models.ForeignKey(Campaign, null=True, blank=True, related_name='campaign_leads')
+	product = models.ForeignKey(Product, null=True, blank=True, related_name='product_leads')
+	status = models.ForeignKey(LeadStatus, null=True, blank=True, related_name='status_leads')
+	campaign_url = models.CharField(max_length=100, blank=True)
 	phone = models.CharField(max_length=15)
 	email = models.CharField(max_length=60, blank=True)
 	first_name = models.CharField(max_length=40)
 	last_name = models.CharField(max_length=40)
-	city = models.CharField(max_length=50, null=True)
+	city = models.CharField(max_length=50, blank=True)
 	comment = models.CharField(max_length=255, blank=True)
-	ip = models.CharField(max_length=30, null=True)
-	agent = models.CharField(max_length=60, null=True)
+	ip = models.CharField(max_length=30, blank=True)
+	agent = models.CharField(max_length=60, blank=True)
 	def __unicode__(self):
 		return '%s %s' % (self.first_name, self.last_name)
 

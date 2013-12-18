@@ -1,0 +1,66 @@
+{% extends "lead_center/common/base.html" %}
+{% block title %}Campaigns{% endblock %}
+{% block content %}
+<h1>Campaigns</h1>
+	{% if campaigns %}
+	    <div class="tbl">
+	        <div style="font-weight:bold;" class="row">
+	        	<div class="col col-lg-3">
+	                Name
+	            </div>
+
+	            <div class="col col-lg-3">
+	                Description
+	            </div>
+
+	            <div class="col col-lg-3">
+	                Lead count 
+	            </div>
+	            <div class="col col-lg-3">
+	                Actions
+	            </div>
+	        </div>
+	        {% for campaign in campaigns %}
+	            <div style="font-weight:bold;" class="row">
+	                <div class="col col-lg-3">
+                        {{campaign.name}}
+	                </div>
+
+	                <div class="col col-lg-3">
+	                    {{campaign.description}}
+	                </div>
+
+	                <div class="col col-lg-3">
+	                	<a href="/leads/?campaign={{campaign.id}}">
+	                    	{{campaign.lead_count}}
+	                    </a>
+	                </div>
+	                <div class="col col-lg-2 left">
+		                <a href="{% url "edit_obj" "campaign" campaign.id %}" class="btn btn-link">
+		                	Edit
+		                </a>
+		                <a href="{% url "delete_obj" "campaign" campaign.id %}" class="btn btn-link">
+		                	Delete
+		                </a>
+	                </div>
+	            </div>
+	        {% endfor %}
+	    </div>
+	{% else %}
+	        <div style="row">
+	            <div class="col-lg-12">
+	                No campaigns are currently available, you can add a new one below
+	            </div>
+	        </div>
+	{% endif %}
+	{% if campaignAdded %}
+	<div style="row">
+	    <div class="col-lg-12">
+	    	<span class="success">
+	    		The campaign was added successfully
+	    	</span>
+	    </div>
+   </div>
+	{% endif %}
+	{% include "genericForm.html" %}
+{% endblock %}

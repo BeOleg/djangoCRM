@@ -1,0 +1,66 @@
+{% extends "lead_center/common/base.html" %}
+{% block title %}Products{% endblock %}
+{% block content %}
+<h1>Services</h1>
+	{% if products %}
+	    <div class="tbl">
+	        <div style="font-weight:bold;" class="row">
+	        	<div class="col col-lg-3">
+	                Name
+	            </div>
+
+	            <div class="col col-lg-3">
+	                Description
+	            </div>
+
+	            <div class="col col-lg-3">
+	                Lead count 
+	            </div>
+	            <div class="col col-lg-3">
+	                Actions
+	            </div>
+	        </div>
+	        {% for product in products %}
+	            <div style="font-weight:bold;" class="row">
+	                <div class="col col-lg-3">
+                        {{product.name}}
+	                </div>
+
+	                <div class="col col-lg-3">
+	                    {{product.description}}
+	                </div>
+
+	                <div class="col col-lg-3">
+	                	<a href="/leads/?product={{product.id}}">
+	                    	{{product.lead_count}}
+	                    </a>
+	                </div>
+	                <div class="col col-lg-2 left">
+		                <a href="{% url "edit_obj" 'product' product.id %}" class="btn btn-link">
+		                	Edit
+		                </a>
+		                	<a href="{% url "delete_obj" 'product' product.id %}" class="btn btn-link">
+		                		Delete
+		                	</a>
+	                </div>
+	            </div>
+	        {% endfor %}
+	    </div>
+	{% else %}
+	        <div style="row">
+	            <div class="col-lg-12">
+	                No products are currently available, you can add a new one below
+	            </div>
+	        </div>
+	{% endif %}
+	{% if productAdded %}
+	<div style="row">
+	    <div class="col-lg-12">
+	    	<span class="success">
+	    		The product was added successfully
+	    	</span>
+	    </div>
+   </div>
+	{% endif %}
+	{% include "genericForm.html" %}
+{% endblock %}

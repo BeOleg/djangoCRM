@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -9,26 +9,23 @@ from django.http import HttpResponseRedirect, HttpResponse
 from datetime import datetime
 from django.conf import settings
 
-from rest_framework import viewsets
+from rest_framework import viewsets, permissions
 from .serializers import LeadSerializer
 
 class LeadViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows leads being viewed and edited
     """
-    queryset = Lead.objects.all()
+    model = Lead
     serializer_class = LeadSerializer
+    permission_classes = [permissions.AllowAny]
 
-# Create your views here.
-def about(request):
-	context_dict = {'boldmessage': "someStaticMessageAtAbout"}
-	return render(request, 'lead_center/about.html', context_dict) 
 
 def register(request):
 	registered = False
 	userForm = UserForm(request.POST or None)
 	userInfoForm = UserInfoForm(request.POST or None)
-	if(userForm.is_valid() and userInfoForm.is_valid()):
+	if userForm.is_valid() and userInfoForm.is_valid():
 		user = userForm.save()
 		user.set_password(user.password)
 		user.save()
@@ -44,18 +41,13 @@ def user_login(request):
 	msg = None
 	next = None
 
-	if(request.POST):
+	if request.method == 'POST':
 		username = request.POST['username'];
 		password = request.POST['password'];
-		try:
-			next = request.GET['next']
-		except:
-			pass
 		u = authenticate(username=username, password=password)
-		print u
-		if(u is not None and u.is_active):
+		if u and u.is_active:
 			login(request, u)
-			redirect_url =  next or '/leads/'
+			redirect_url = request.GET.get('next') or '/leads/'
 			return HttpResponseRedirect(redirect_url)
 		else:
 			msg = 'Invalid credentials or inactive account'
@@ -113,7 +105,7 @@ def lead_edit_form(request, lead_id):
 	return render(request, 'lead_center/lead_form.html', context_dict)
 
 @login_required
-def product_list(request) :
+def product_list(request):
 	productAdded = False
 	products = Product.objects.annotate(lead_count=Count('product_leads'))
 	#products = = Product.objects.all()
@@ -125,6 +117,71 @@ def product_list(request) :
 		productAdded = True
 	context_dict = {'products': products, 'form': form, 'productAdded': productAdded}
 	return render(request, 'lead_center/product_list.html', context_dict)
+
+@login_required
+def delete_obj(request, obj_type, obj_id):
+	if obj_type == 'campaign':
+		title = 'Delete campagign?'
+		model_class = Campaign
+		redirect_url = 'campaign_list' 
+	elif obj_type == 'product':
+ 		title = 'Delete product?'
+ 		model_class = Product
+ 		redirect_url = 'product_list'
+ 	elif obj_type == 'status':
+ 		title = 'Delete status?'
+ 		model_class = LeadStatus
+ 		redirect_url = 'status_list'
+ 	else:
+ 		raise Http404
+
+	success = None
+	try:
+		obj = model_class.objects.get(pk=obj_id)
+	except (Campaign.DoesNotExist, Product.DoesNotExist):
+		raise Http404
+
+	if request.method == "POST" and obj:
+		obj.delete()
+		return redirect(redirect_url)
+	
+	return render(request, 'lead_center/common/delete_obj.html', {'title': delete_obj, 'success': success, 'object': obj})
+
+
+@login_required
+def edit_obj (request, obj_type, obj_id):
+	if obj_type == 'campaign':
+		model = Campaign
+		form_class = CampaignForm
+		title = 'Edit campaign'
+		redirect_url = 'campaign_list'
+	elif obj_type == 'product':
+		model = Product
+		form_class = ProductForm
+		title = 'Edit product'
+		redirect_url = 'product_list'
+	elif obj_type == 'status':
+		model = LeadStatus
+		form_class = LeadStatusForm
+		title = 'Edit lead status'
+		redirect_url = 'status_list'
+	else:
+		raise Http404
+
+	success = None
+	try:
+		obj = model.objects.get(pk=obj_id)
+	except model.DoesNotExist:
+		raise Http404
+
+	form = form_class(request.POST or None, instance=obj)
+	
+	if form.is_valid() and obj:
+		form.save()
+		return redirect(redirect_url)
+	return render(request, 'lead_center/common/edit_obj.html', {'title': title, 'formTitle': obj.name, 'form': form})
+
+
 
 @login_required
 def campaign_list(request) :
@@ -177,10 +234,8 @@ def lead_page(request, lead_name=None):
 	comment_list = None
 	comment_success = False
 
-	try:
-		leads = Lead.objects.filter(first_name = split_name[0], last_name = split_name[1])
-	except Lead.DoesNotExist:
-		pass
+	leads = Lead.objects.filter(first_name = split_name[0], last_name = split_name[1])
+
 	form = leadCommentForm(request.POST or None)
 	if leads:
 		comment_list = LeadComment.objects.filter(lead = leads[0])

@@ -1,0 +1,66 @@
+{% extends "lead_center/common/base.html" %}
+{% block title %}Statuses{% endblock %}
+{% block content %}
+<h1>Lead statuses</h1>
+	{% if statuses %}
+	    <div class="tbl">
+	        <div style="font-weight:bold;" class="row">
+	        	<div class="col col-lg-3">
+	                Name
+	            </div>
+
+	            <div class="col col-lg-3">
+	                Description
+	            </div>
+
+	            <div class="col col-lg-3">
+	                Lead count 
+	            </div>
+	            <div class="col col-lg-3">
+	                Actions
+	            </div>
+	        </div>
+	        {% for status in statuses %}
+	            <div style="font-weight:bold;" class="row">
+	                <div class="col col-lg-3">
+                        {{status.name}}
+	                </div>
+
+	                <div class="col col-lg-3">
+	                    {{status.description}}
+	                </div>
+
+	                <div class="col col-lg-3">
+	                	<a href="/leads/?status={{status.id}}">
+	                    	{{status.lead_count}}
+	                    </a>
+	                </div>
+	                <div class="col col-lg-2 left">
+		                <a href="{% url "edit_obj" 'status' status.id %}" class="btn btn-link">
+		                	Edit
+		                </a>
+		                <a href="{% url "delete_obj" 'status' status.id %}" class="btn btn-link">
+		                	Delete
+		                </a>
+	                </div>
+	            </div>
+	        {% endfor %}
+	    </div>
+	{% else %}
+	        <div style="row">
+	            <div class="col-lg-12">
+	                No statuses are currently available, you can add a new one below
+	            </div>
+	        </div>
+	{% endif %}
+	{% if statusAdded %}
+	<div style="row">
+	    <div class="col-lg-12">
+	    	<span class="success">
+	    		The status was added successfully
+	    	</span>
+	    </div>
+   </div>
+	{% endif %}
+	{% include "genericForm.html" %}
+{% endblock %}
