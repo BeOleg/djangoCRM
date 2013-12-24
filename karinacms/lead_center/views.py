@@ -11,6 +11,7 @@ from django.conf import settings
 
 from rest_framework import viewsets, permissions
 from .serializers import LeadSerializer
+from .custom_permissions import PostOnly
 
 class LeadViewSet(viewsets.ModelViewSet):
     """
@@ -18,7 +19,7 @@ class LeadViewSet(viewsets.ModelViewSet):
     """
     model = Lead
     serializer_class = LeadSerializer
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [PostOnly]
 
 
 def register(request):

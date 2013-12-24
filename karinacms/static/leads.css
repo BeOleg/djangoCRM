@@ -36,6 +36,14 @@ footer{
 	margin: 0;
 	padding: 0;
 }
+.success{
+	color: green;
+	display: block;
+	text-align: center;
+	margin: auto;
+	line-height: 20px;
+	font-size: 25px;
+}
 .error{
 	color: red;
 	font-weight: bold;
