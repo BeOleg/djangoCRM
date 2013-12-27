@@ -41,6 +41,8 @@ class Lead(models.Model):
 	comment = models.CharField(max_length=255, blank=True)
 	ip = models.CharField(max_length=30, blank=True)
 	agent = models.CharField(max_length=60, blank=True)
+	def name(self):
+		return '%s %s' % (self.first_name, self.last_name)
 	def __unicode__(self):
 		return '%s %s' % (self.first_name, self.last_name)
 

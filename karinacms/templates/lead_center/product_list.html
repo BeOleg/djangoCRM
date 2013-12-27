@@ -20,31 +20,9 @@
 	                Actions
 	            </div>
 	        </div>
-	        {% for product in products %}
-	            <div style="font-weight:bold;" class="row">
-	                <div class="col col-lg-3">
-                        {{product.name}}
-	                </div>
-
-	                <div class="col col-lg-3">
-	                    {{product.description}}
-	                </div>
-
-	                <div class="col col-lg-3">
-	                	<a href="/leads/?product={{product.id}}">
-	                    	{{product.lead_count}}
-	                    </a>
-	                </div>
-	                <div class="col col-lg-2 left">
-		                <a href="{% url "edit_obj" 'product' product.id %}" class="btn btn-link">
-		                	Edit
-		                </a>
-		                	<a href="{% url "delete_obj" 'product' product.id %}" class="btn btn-link">
-		                		Delete
-		                	</a>
-	                </div>
-	            </div>
-	        {% endfor %}
+	        <div id="result_set">
+	        	{% include 'common/generic_list.html' with obj=products objStr="product" %}
+	        </div>
 	    </div>
 	{% else %}
 	        <div style="row">

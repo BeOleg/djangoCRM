@@ -17,6 +17,7 @@ urlpatterns = patterns('',
     url(r'^register/', 'lead_center.views.register', name='register'),#TODO: remove those paths to the root urls.py
     url(r'^login/', 'lead_center.views.user_login', name='login'),
     url(r'^logout/', 'lead_center.views.user_logout', name='logout'),
+    url(r'^search_list/$', 'lead_center.views.search_list', name='search_list'),
     url(r'^edit/(?P<obj_type>.+)/(?P<obj_id>\d+)$', 'lead_center.views.edit_obj', name='edit_obj'),   #url(r'^admin/', include(admin.site.urls)),
     url(r'^delete/(?P<obj_type>.+)/(?P<obj_id>\d+)$', 'lead_center.views.delete_obj', name='delete_obj'),
 )

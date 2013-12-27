@@ -20,31 +20,9 @@
 	                Actions
 	            </div>
 	        </div>
-	        {% for status in statuses %}
-	            <div style="font-weight:bold;" class="row">
-	                <div class="col col-lg-3">
-                        {{status.name}}
-	                </div>
-
-	                <div class="col col-lg-3">
-	                    {{status.description}}
-	                </div>
-
-	                <div class="col col-lg-3">
-	                	<a href="/leads/?status={{status.id}}">
-	                    	{{status.lead_count}}
-	                    </a>
-	                </div>
-	                <div class="col col-lg-2 left">
-		                <a href="{% url "edit_obj" 'status' status.id %}" class="btn btn-link">
-		                	Edit
-		                </a>
-		                <a href="{% url "delete_obj" 'status' status.id %}" class="btn btn-link">
-		                	Delete
-		                </a>
-	                </div>
-	            </div>
-	        {% endfor %}
+	        <div id="result_set">
+	        	{% include 'common/generic_list.html' with obj=statuses objStr="status" %}
+	        </div>
 	    </div>
 	{% else %}
 	        <div style="row">

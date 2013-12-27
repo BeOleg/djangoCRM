@@ -116,9 +116,28 @@ def product_list(request):
 		product = form.save()
 		product.save()
 		productAdded = True
-	context_dict = {'products': products, 'form': form, 'productAdded': productAdded}
+	context_dict = {'products': products, 'form': form, 'productAdded': productAdded, 'obj_type': 'Product'}
 	return render(request, 'lead_center/product_list.html', context_dict)
 
+@login_required
+def search_list(request):
+	object_type = request.GET['object_type']
+	query_string = request.GET['query_string']
+	if object_type == 'Campaign':
+		model_class = Campaign
+		objStr = 'campaign'
+	elif object_type == 'Product':
+		model_class = Product
+		objStr = 'product'
+	elif object_type == 'Status':
+		model_class = LeadStatus
+		objStr = 'status'
+	elif object_type == 'Lead':
+		model_class = Lead
+		objStr = 'lead'
+	result_set = model_class.objects.filter(name__icontains=query_string)
+	return render(request, 'lead_center/common/generic_list.html', {'obj': result_set, 'objStr': objStr})
+	
 @login_required
 def delete_obj(request, obj_type, obj_id):
 	if obj_type == 'campaign':
@@ -185,7 +204,7 @@ def edit_obj (request, obj_type, obj_id):
 
 
 @login_required
-def campaign_list(request) :
+def campaign_list(request):
 	campaignAdded = False
 	campaigns = Campaign.objects.annotate(lead_count=Count('campaign_leads'))
 	#products = = Product.objects.all()
@@ -193,11 +212,11 @@ def campaign_list(request) :
 	if form.is_valid():
 		campaign = form.save()
 		campaignAdded = True
-	context_dict = {'campaigns': campaigns, 'form': form, 'campaignAdded': campaignAdded}
+	context_dict = {'campaigns': campaigns, 'form': form, 'campaignAdded': campaignAdded, 'obj_type': 'Campaign'}
 	return render(request, 'lead_center/campaign_list.html', context_dict)
 
 @login_required
-def status_list(request) :
+def status_list(request):
 	statusAdded = False
 	statuses = LeadStatus.objects.annotate(lead_count=Count('status_leads'))
 	#products = = Product.objects.all()
@@ -205,7 +224,7 @@ def status_list(request) :
 	if form.is_valid():
 		status = form.save()
 		statusAdded = True
-	context_dict = {'statuses': statuses, 'form': form, 'statusAdded': statusAdded}
+	context_dict = {'statuses': statuses, 'form': form, 'statusAdded': statusAdded, 'obj_type': 'Status'}
 	return render(request, 'lead_center/status_list.html', context_dict)
 
 
